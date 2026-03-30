@@ -1,4 +1,6 @@
 # hey-ozwell-demo
+To convert a .pt model to a .onnx model, place the .pt model in `src/python` and set the variables `input_filename` and `output_filename` in `convert.py` accordingly, then `cd src/python` and run `convert.py`
+
 To run demo, run the following:
     `cd src/js`
     `npm run build`

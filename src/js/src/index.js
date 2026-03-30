@@ -69,16 +69,17 @@ function blobToAudio(audioBlob) {
 /** Configuration */
 const colors = {
     "hey ozwell": [255, 209, 0],
+    "ozwell i'm done": [255, 0, 255],
     "speech": [22,200,206],
     "frame budget": [25,255,25]
 };
 const rootUrl = "https://huggingface.co/benjamin-paine/hey-buddy/resolve/main";
-const wakeWords = ["hey ozwell"];
+const wakeWords = ["hey ozwell", "ozwell i'm done"];
 const canvasSize = { width: 640, height: 100 };
 const graphLineWidth = 1;
 const options = {
     debug: true,
-    modelPath: wakeWords.map((word) => `../models/${word.replace(' ', '-')}.onnx`),
+    modelPath: wakeWords.map((word) => `../models/${word.replace(/ /g, '-')}.onnx`),
     vadModelPath: `${rootUrl}/pretrained/silero-vad.onnx`,
     spectrogramModelPath: `${rootUrl}/pretrained/mel-spectrogram.onnx`,
     embeddingModelPath: `${rootUrl}/pretrained/speech-embedding.onnx`,
@@ -115,8 +116,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         current["speech"] = result.speech.probability || 0.0;
         active["speech"] = result.speech.active;
         for (let wakeWord in result.wakeWords) {
-            current[wakeWord.replace('-', ' ')] = result.wakeWords[wakeWord].probability || 0.0;
-            active[wakeWord.replace('-', ' ')] = result.wakeWords[wakeWord].active;
+            current[wakeWord.replace(/-/g, ' ')] = result.wakeWords[wakeWord].probability || 0.0;
+            active[wakeWord.replace(/-/g, ' ')] = result.wakeWords[wakeWord].active;
         }
         if (result.recording) {
             audioContainer.innerHTML = "Recording&hellip;";
